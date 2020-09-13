@@ -1,0 +1,113 @@
+import tkinter
+import time
+import tkinter.ttk
+import tkinter.messagebox
+ls1=["手机","Pad","电脑"]
+dic1={0:"好",1:"一般",2:"差"}
+#时间
+def gt1():
+    var001.set(time.strftime("%Y年%m月%d日"))
+    root.after(24*60*60*1000,gt1)
+def gt2():
+    var002.set(time.strftime("%H:%M:%S"))
+    root.after(1000,gt2)
+def txtrun():
+    a=str(inp1.get())
+    b=str(inp2.get())
+    s=b+a+"，确定要提交？"
+    return s
+def show(event):
+    c = "我为钟老师打" + str(var5.get()) + "分"
+def shifou():
+    st = ""
+    for i in range(len(ls1)):
+        if var3[i].get():
+            st += ls1[i] + "  "
+    b = "我使用" + st + "上网课，我觉得网课效果" + dic1.get(var4.get())+"。"
+    answer = tkinter.messagebox.askyesno("提交确认", txtrun())
+    if answer:
+        a = "我是" + comb.get() + "生，名字是" + inp1.get() + "，学号为" + inp2.get()+"。"
+        lb01.config(text=a)
+        lb02.config(text=b)
+        mm="我为钟老师打" + str(var5.get()) + "分。"
+        lb03.config(text=mm)
+
+#重置
+def cancel():
+    inp1.delete(0,tkinter.END)
+    inp2.delete(0,tkinter.END)
+    comb.delete(0,tkinter.END)
+    for k in var3:
+        k.set(False)
+    rd1.select()
+    scl.set(60)
+
+root=tkinter.Tk()
+root.title("张景雯的Python窗体")
+root.geometry("420x380")
+
+var001=tkinter.StringVar()
+var002=tkinter.StringVar()
+lbtime1=tkinter.Label(root,textvariable=var001,fg="blue",font=("黑体",13))
+lbtime1.place(relx=0.05,rely=0)
+gt1()
+lbtime2=tkinter.Label(root,textvariable=var002,fg="blue",font=("黑体",13))
+lbtime2.place(relx=0.7,rely=0)
+gt2()
+
+lb3=tkinter.Label(root,text="姓名：",bd=4,fg="black",font=("黑体",11))
+lb3.place(relx=0,rely=0.1,relheight=0.05)
+lb4=tkinter.Label(root,text="学号：",bd=4,fg="black",font=("黑体",11))
+lb4.place(relx=0.33,rely=0.1,relheight=0.05)
+lb5=tkinter.Label(root,text="性别：",bd=4,fg="black",font=("黑体",11))
+lb5.place(relx=0.7,rely=0.1,relheight=0.05)
+lb6=tkinter.Label(root,text="上网课的设备：",bd=1,fg="black",font=("宋体",9))
+lb6.place(relx=0.02,rely=0.2,relheight=0.05)
+lb7=tkinter.Label(root,text="网课效果反馈：",bd=1,fg="black",font=("宋体",9))
+lb7.place(relx=0.02,rely=0.3,relheight=0.05)
+
+inp1=tkinter.Entry(root)
+inp1.place(relx=0.12,rely=0.1,relheight=0.05,relwidth=0.2)
+inp2=tkinter.Entry(root)
+inp2.place(relx=0.46,rely=0.1,relheight=0.05,relwidth=0.2)
+
+var2=tkinter.StringVar()
+comb=tkinter.ttk.Combobox(root,textvariable=var2,values=["女","男"])
+comb.place(relx=0.82,rely=0.1,relheight=0.05,relwidth=0.1)
+
+lb01=tkinter.Label(root)
+lb02=tkinter.Label(root)
+lb03=tkinter.Label(root)
+lb01.place(relx=0.2,rely=0.8)
+lb02.place(relx=0.2,rely=0.85)
+lb03.place(relx=0.2,rely=0.9)
+
+var3=[]
+n=0
+for i in range(len(ls1)):
+    var3.append(tkinter.IntVar())
+    ch=tkinter.Checkbutton(root,text=ls1[i],variable=var3[-1])
+    ch.place(relx=0.3+n,rely=0.2,relheight=0.05)
+    n+=0.2
+var4=tkinter.IntVar()
+rd1=tkinter.Radiobutton(root,text="好",variable=var4,
+                        value=0)
+rd1.place(relx=0.3,rely=0.3,relheight=0.05)
+rd2=tkinter.Radiobutton(root,text="一般",variable=var4,
+                        value=1)
+rd2.place(relx=0.5,rely=0.3,relheight=0.05)
+rd3=tkinter.Radiobutton(root,text="差",variable=var4,
+                        value=2)
+rd3.place(relx=0.7,rely=0.3,relheight=0.05)
+var5=tkinter.IntVar()
+scl=tkinter.Scale(root,orient=tkinter.HORIZONTAL,length=260,width=12,
+                  from_=60,to=100,label="请拖动滑块，给钟老师的网课打分：",
+                  tickinterval=5,resolution=1,variable=var5,font=("宋体",10))
+scl.bind('<ButtonRelease-1>',show)
+scl.place(relx=0.2,rely=0.4)
+
+bt1=tkinter.Button(root,text="重置",command=cancel)
+bt2=tkinter.Button(root,text="提交",command=shifou)
+bt1.place(relx=0.3,rely=0.7,relheight=0.05)
+bt2.place(relx=0.6,rely=0.7,relheight=0.05)
+root.mainloop()
