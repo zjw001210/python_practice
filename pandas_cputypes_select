@@ -1,0 +1,7 @@
+import pandas as pd
+data = pd.read_excel(r'C:\Users\acer\Desktop\laptops-project\laptops-zjw.xlsx')
+ct=data['cpu-type']
+ls=set(list(ct))
+dic={"cpu-type":list(ls)}
+df = pd.DataFrame(dic)
+df.to_excel(r'C:\Users\acer\Desktop\laptops_cpu-type.xlsx',index=False)
