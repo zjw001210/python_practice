@@ -1,0 +1,39 @@
+import os
+import pandas as pd
+
+def rename():
+    global cnt
+    for n in range(1,201):  # 遍历文件
+        name = "\\" + str(n) + ".png"
+        #print(name)
+        Olddir = path+name # 原来的文件路径
+        # print(Olddir)
+        if n in x_ls:
+            new_path = path+name
+            # print(new_path)
+            os.remove(new_path)  # 新的文件路径
+            #print("0-",n)
+        elif n not in x_ls:
+            Newdir = path + "\\"+str(cnt) + ".jpg" # 新的文件路径
+            os.rename(Olddir, Newdir)  # 重命名
+            #print("1-",n)
+            cnt += 1
+
+cnt = 1
+path = r'E:\python宇宙\python_examples\laptops-project\2020_9_18_new1\lppho_auto_test\all_test' # 原图片的文件路径
+
+n_list=[]  #新建一个list,n_list，为了排序
+filelist = os.listdir(path) #该文件夹下所有文件
+for j in range(len(filelist)):
+    fn = os.path.splitext(filelist[j])[0] #获取文件名
+    n_list.append(int(fn))
+    n_list.sort(reverse=False)
+
+data = pd.read_excel(r'E:\python宇宙\python_examples\laptops-project\2020_9_18_new1\laptops_zjw_final_1.xlsx') #储存id数据的excel
+id_ls=list(data['id'])
+x_ls=[]
+for i in range(1,201):
+    if i not in id_ls:
+        x_ls.append(i)
+
+rename()
